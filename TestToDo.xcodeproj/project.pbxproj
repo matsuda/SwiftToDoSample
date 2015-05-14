@@ -23,6 +23,10 @@
 		0EB330A11B04749900DBA9FF /* TextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EB3309D1B04749900DBA9FF /* TextFieldCell.xib */; };
 		0EB330A41B0478B000DBA9FF /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330A21B0478B000DBA9FF /* TextViewCell.swift */; };
 		0EB330A51B0478B000DBA9FF /* TextViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EB330A31B0478B000DBA9FF /* TextViewCell.xib */; };
+		0EB330AA1B047CE500DBA9FF /* AppDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330A71B047CE500DBA9FF /* AppDefines.swift */; };
+		0EB330AB1B047CE500DBA9FF /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330A81B047CE500DBA9FF /* UIViewController+Keyboard.swift */; };
+		0EB330AC1B047CE500DBA9FF /* UIViewController+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330A91B047CE500DBA9FF /* UIViewController+Utility.swift */; };
+		0EB330AE1B047E2B00DBA9FF /* UITableView+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330AD1B047E2B00DBA9FF /* UITableView+Utility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +60,10 @@
 		0EB3309D1B04749900DBA9FF /* TextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldCell.xib; sourceTree = "<group>"; };
 		0EB330A21B0478B000DBA9FF /* TextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewCell.swift; sourceTree = "<group>"; };
 		0EB330A31B0478B000DBA9FF /* TextViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewCell.xib; sourceTree = "<group>"; };
+		0EB330A71B047CE500DBA9FF /* AppDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefines.swift; sourceTree = "<group>"; };
+		0EB330A81B047CE500DBA9FF /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
+		0EB330A91B047CE500DBA9FF /* UIViewController+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utility.swift"; sourceTree = "<group>"; };
+		0EB330AD1B047E2B00DBA9FF /* UITableView+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Utility.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +105,7 @@
 		0E8F77FB1B0443BE00F2D845 /* TestToDo */ = {
 			isa = PBXGroup;
 			children = (
+				0EB330A61B047C4500DBA9FF /* Libs */,
 				0EB3308E1B04742B00DBA9FF /* Classes */,
 				0E8F77FE1B0443BE00F2D845 /* AppDelegate.swift */,
 				0E8F78071B0443BE00F2D845 /* Main.storyboard */,
@@ -172,6 +181,17 @@
 				0EB330A31B0478B000DBA9FF /* TextViewCell.xib */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		0EB330A61B047C4500DBA9FF /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				0EB330A71B047CE500DBA9FF /* AppDefines.swift */,
+				0EB330A81B047CE500DBA9FF /* UIViewController+Keyboard.swift */,
+				0EB330A91B047CE500DBA9FF /* UIViewController+Utility.swift */,
+				0EB330AD1B047E2B00DBA9FF /* UITableView+Utility.swift */,
+			);
+			path = Libs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,13 +299,17 @@
 			files = (
 				0EB330A41B0478B000DBA9FF /* TextViewCell.swift in Sources */,
 				0EB330981B04742B00DBA9FF /* Entry.swift in Sources */,
+				0EB330AB1B047CE500DBA9FF /* UIViewController+Keyboard.swift in Sources */,
 				0EB330971B04742B00DBA9FF /* MasterViewController.swift in Sources */,
 				0EB330961B04742B00DBA9FF /* EditViewController.swift in Sources */,
+				0EB330AC1B047CE500DBA9FF /* UIViewController+Utility.swift in Sources */,
+				0EB330AA1B047CE500DBA9FF /* AppDefines.swift in Sources */,
 				0EB3309E1B04749900DBA9FF /* KeyboardAccessoryView.swift in Sources */,
 				0EB330951B04742B00DBA9FF /* DetailViewController.swift in Sources */,
 				0E8F77FF1B0443BE00F2D845 /* AppDelegate.swift in Sources */,
 				0E8F78021B0443BE00F2D845 /* TestToDo.xcdatamodeld in Sources */,
 				0EB330A01B04749900DBA9FF /* TextFieldCell.swift in Sources */,
+				0EB330AE1B047E2B00DBA9FF /* UITableView+Utility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
