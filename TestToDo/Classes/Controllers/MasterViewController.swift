@@ -12,7 +12,7 @@ import CoreData
 class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     var managedObjectContext: NSManagedObjectContext? = nil
-
+    var dataSource: [Entry] = Entry.mocks(10)
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,7 +21,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.navigationItem.leftBarButtonItem = self.editButtonItem()
+//        self.navigationItem.leftBarButtonItem = self.editButtonItem()
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
@@ -32,6 +32,11 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         // Dispose of any resources that can be recreated.
     }
 
+    func insertNewObject(sender: AnyObject) {
+        self.performSegueWithIdentifier("createData", sender: self)
+    }
+
+    /*
     func insertNewObject(sender: AnyObject) {
         let context = self.fetchedResultsController.managedObjectContext
         let entity = self.fetchedResultsController.fetchRequest.entity!
@@ -50,15 +55,25 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             abort()
         }
     }
+    */
 
     // MARK: - Segues
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
-            let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
-            (segue.destinationViewController as! DetailViewController).detailItem = object
+                /*
+                let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
+                (segue.destinationViewController as! DetailViewController).detailItem = object
+                */
+                let entry = self.dataSource[indexPath.row]
+                let destination = segue.destinationViewController as! DetailViewController
+                destination.entry = entry
             }
+        }
+        if segue.identifier == "createData" {
+            let navigation = segue.destinationViewController as! UINavigationController
+            let destination = navigation.viewControllers.first as! EditViewController
         }
     }
 
@@ -69,8 +84,11 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        /*
         let sectionInfo = self.fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
         return sectionInfo.numberOfObjects
+        */
+        return self.dataSource.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -98,11 +116,18 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             }
         }
     }
+    func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
+        let entry = self.dataSource[indexPath.row]
+        cell.textLabel?.text = entry.title
+        cell.detailTextLabel?.text = entry.createdAtAsString
+    }
 
+    /*
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
             let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
         cell.textLabel!.text = object.valueForKey("timeStamp")!.description
     }
+    */
 
     // MARK: - Fetched results controller
 
