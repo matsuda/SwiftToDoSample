@@ -13,6 +13,7 @@ UITableViewDataSource, UITableViewDelegate,
 UITextFieldDelegate, UITextViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+
     var entry: Entry!
     var dataSource: [EntryProperty] = EntryProperty.all()
 
@@ -176,6 +177,10 @@ UITextFieldDelegate, UITextViewDelegate {
         case .Memo:
             let cell = tableView.cellForRowAtIndexPath(indexPath) as! TextViewCell
             cell.textView.becomeFirstResponder()
+        case .Priority:
+            self.presentPickerController()
+        case .DueDate:
+            self.presentDatePickerController()
         default:
             break
         }
@@ -192,6 +197,82 @@ UITextFieldDelegate, UITextViewDelegate {
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
         self.tableView.xxx_selectRowAtFirstRespondingView(textView)
         return true
+    }
+
+}
+
+extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, PickerControllerDelegate {
+    func presentPickerController() {
+        let pickerController = self.storyboard?.instantiateViewControllerWithIdentifier("PickerController") as! PickerController
+        pickerController.presentPicker(true, completion: { (finished) -> Void in
+            var priority = self.entry.priority.rawValue
+            pickerController.pickerView.selectRow(priority+1, inComponent: 0, animated: true)
+        })
+        self.addChildViewController(pickerController)
+        pickerController.didMoveToParentViewController(self)
+        pickerController.delegate = self
+        pickerController.pickerView.delegate = self
+        pickerController.pickerView.dataSource = self;
+    }
+
+    func dismissPickerController(controller: PickerController) {
+        controller.dismissPickerAnimated(true, completion: { (finished) -> Void in
+            controller.willMoveToParentViewController(nil)
+            controller.removeFromParentViewController()
+        })
+    }
+
+    func pickerControllerDidCancel(controller: PickerController) {
+        self.dismissPickerController(controller)
+    }
+
+    func pickerControllerDidSelect(controller: PickerController) {
+        let index = controller.pickerView.selectedRowInComponent(0)
+        self.dismissPickerController(controller)
+        let priority = Entry.Priority(rawValue: index-1)!
+        self.entry.priority = priority
+        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
+    }
+
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 3
+    }
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        let priority = Entry.Priority(rawValue: row-1)
+        return priority?.toString()
+    }
+}
+
+extension EditViewController: DatePickerControllerDelegate {
+    func presentDatePickerController() {
+        let pickerController = self.storyboard?.instantiateViewControllerWithIdentifier("DatePickerController") as! DatePickerController
+        pickerController.presentPicker(true, completion: { (finished) -> Void in
+            pickerController.datePicker.date = self.entry.dueDate
+        })
+        self.addChildViewController(pickerController)
+        pickerController.didMoveToParentViewController(self)
+        pickerController.delegate = self
+    }
+
+    func dismissDatePickerController(controller: DatePickerController) {
+        controller.dismissPickerAnimated(true, completion: { (finished) -> Void in
+            controller.willMoveToParentViewController(nil)
+            controller.removeFromParentViewController()
+        })
+    }
+
+    func datePickerControllerDidCancel(controller: DatePickerController) {
+        self.dismissDatePickerController(controller)
+    }
+
+    func datePickerControllerDidSelect(controller: DatePickerController) {
+        let date = controller.datePicker.date
+        self.dismissDatePickerController(controller)
+        self.entry.dueDate = date
+        self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .None)
     }
 }
 

@@ -27,6 +27,8 @@
 		0EB330AB1B047CE500DBA9FF /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330A81B047CE500DBA9FF /* UIViewController+Keyboard.swift */; };
 		0EB330AC1B047CE500DBA9FF /* UIViewController+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330A91B047CE500DBA9FF /* UIViewController+Utility.swift */; };
 		0EB330AE1B047E2B00DBA9FF /* UITableView+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330AD1B047E2B00DBA9FF /* UITableView+Utility.swift */; };
+		0EB330B01B04881600DBA9FF /* PickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330AF1B04881600DBA9FF /* PickerController.swift */; };
+		0EB330B21B04B19A00DBA9FF /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330B11B04B19A00DBA9FF /* DatePickerController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		0EB330A81B047CE500DBA9FF /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
 		0EB330A91B047CE500DBA9FF /* UIViewController+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utility.swift"; sourceTree = "<group>"; };
 		0EB330AD1B047E2B00DBA9FF /* UITableView+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Utility.swift"; sourceTree = "<group>"; };
+		0EB330AF1B04881600DBA9FF /* PickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerController.swift; sourceTree = "<group>"; };
+		0EB330B11B04B19A00DBA9FF /* DatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +162,8 @@
 				0EB330901B04742B00DBA9FF /* DetailViewController.swift */,
 				0EB330911B04742B00DBA9FF /* EditViewController.swift */,
 				0EB330921B04742B00DBA9FF /* MasterViewController.swift */,
+				0EB330AF1B04881600DBA9FF /* PickerController.swift */,
+				0EB330B11B04B19A00DBA9FF /* DatePickerController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -300,10 +306,12 @@
 				0EB330A41B0478B000DBA9FF /* TextViewCell.swift in Sources */,
 				0EB330981B04742B00DBA9FF /* Entry.swift in Sources */,
 				0EB330AB1B047CE500DBA9FF /* UIViewController+Keyboard.swift in Sources */,
+				0EB330B21B04B19A00DBA9FF /* DatePickerController.swift in Sources */,
 				0EB330971B04742B00DBA9FF /* MasterViewController.swift in Sources */,
 				0EB330961B04742B00DBA9FF /* EditViewController.swift in Sources */,
 				0EB330AC1B047CE500DBA9FF /* UIViewController+Utility.swift in Sources */,
 				0EB330AA1B047CE500DBA9FF /* AppDefines.swift in Sources */,
+				0EB330B01B04881600DBA9FF /* PickerController.swift in Sources */,
 				0EB3309E1B04749900DBA9FF /* KeyboardAccessoryView.swift in Sources */,
 				0EB330951B04742B00DBA9FF /* DetailViewController.swift in Sources */,
 				0E8F77FF1B0443BE00F2D845 /* AppDelegate.swift in Sources */,
@@ -438,6 +446,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TestToDo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -448,6 +457,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TestToDo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
