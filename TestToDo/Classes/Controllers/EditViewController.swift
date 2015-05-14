@@ -8,7 +8,9 @@
 
 import UIKit
 
-class EditViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class EditViewController: UIViewController,
+UITableViewDataSource, UITableViewDelegate,
+UITextFieldDelegate, UITextViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     var entry: Entry!
@@ -31,6 +33,16 @@ class EditViewController: UIViewController, UITableViewDataSource, UITableViewDe
         self.prepareTableView()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        addObserverForKeyboardNotifications()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeObserverForKeyboardNotifications()
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -47,6 +59,7 @@ class EditViewController: UIViewController, UITableViewDataSource, UITableViewDe
     */
 
     @IBAction func tapSubmit(sender: AnyObject) {
+        self.view.endEditing(true)
         if self.presentingViewController == nil {
             self.navigationController?.popViewControllerAnimated(true)
         } else {
@@ -55,6 +68,7 @@ class EditViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     @IBAction func tapCancel(sender: AnyObject) {
+        self.view.endEditing(true)
         if self.presentingViewController == nil {
             self.navigationController?.popViewControllerAnimated(true)
         } else {
@@ -138,12 +152,14 @@ class EditViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(tableView: UITableView, textFieldCellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let row = self.dataSource[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(TextFieldCellIdentifier) as! TextFieldCell
+        cell.textField.delegate = self
         return cell
     }
 
     func tableView(tableView: UITableView, textViewCellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let row = self.dataSource[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(TextViewCellIdentifier) as! TextViewCell
+        cell.textView.delegate = self
         return cell
     }
 
@@ -160,5 +176,32 @@ class EditViewController: UIViewController, UITableViewDataSource, UITableViewDe
             break
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+
+    // MARK: - UITextField delegate
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        self.tableView.xxx_selectRowAtFirstRespondingView(textField)
+        return true
+    }
+
+    // MARK: - UITextView delegate
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        self.tableView.xxx_selectRowAtFirstRespondingView(textView)
+        return true
+    }
+}
+
+extension EditViewController {
+    // MARK: - override super
+    override var inputAccessoryView: UIView? {
+        get {
+            return keyboardAccessorView()
+        }
+    }
+
+    override var scrollViewForKeyboardNotifications: UIScrollView {
+        get {
+            return self.tableView
+        }
     }
 }
