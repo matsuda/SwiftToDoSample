@@ -159,9 +159,9 @@
 		0EB3308F1B04742B00DBA9FF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0EB330921B04742B00DBA9FF /* MasterViewController.swift */,
 				0EB330901B04742B00DBA9FF /* DetailViewController.swift */,
 				0EB330911B04742B00DBA9FF /* EditViewController.swift */,
-				0EB330921B04742B00DBA9FF /* MasterViewController.swift */,
 				0EB330AF1B04881600DBA9FF /* PickerController.swift */,
 				0EB330B11B04B19A00DBA9FF /* DatePickerController.swift */,
 			);

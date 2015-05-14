@@ -203,6 +203,7 @@ UITextFieldDelegate, UITextViewDelegate {
 
 extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, PickerControllerDelegate {
     func presentPickerController() {
+        self.view.endEditing(true)
         let pickerController = self.storyboard?.instantiateViewControllerWithIdentifier("PickerController") as! PickerController
         pickerController.presentPicker(true, completion: { (finished) -> Void in
             var priority = self.entry.priority.rawValue
@@ -248,6 +249,7 @@ extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, Pick
 
 extension EditViewController: DatePickerControllerDelegate {
     func presentDatePickerController() {
+        self.view.endEditing(true)
         let pickerController = self.storyboard?.instantiateViewControllerWithIdentifier("DatePickerController") as! DatePickerController
         pickerController.presentPicker(true, completion: { (finished) -> Void in
             pickerController.datePicker.date = self.entry.dueDate
