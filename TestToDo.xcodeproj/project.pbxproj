@@ -29,6 +29,8 @@
 		0EB330AE1B047E2B00DBA9FF /* UITableView+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330AD1B047E2B00DBA9FF /* UITableView+Utility.swift */; };
 		0EB330B01B04881600DBA9FF /* PickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330AF1B04881600DBA9FF /* PickerController.swift */; };
 		0EB330B21B04B19A00DBA9FF /* DatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330B11B04B19A00DBA9FF /* DatePickerController.swift */; };
+		0EB330B51B04BC4600DBA9FF /* FlexibleLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330B31B04BC4600DBA9FF /* FlexibleLabelCell.swift */; };
+		0EB330B61B04BC4600DBA9FF /* FlexibleLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EB330B41B04BC4600DBA9FF /* FlexibleLabelCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,8 @@
 		0EB330AD1B047E2B00DBA9FF /* UITableView+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Utility.swift"; sourceTree = "<group>"; };
 		0EB330AF1B04881600DBA9FF /* PickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerController.swift; sourceTree = "<group>"; };
 		0EB330B11B04B19A00DBA9FF /* DatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerController.swift; sourceTree = "<group>"; };
+		0EB330B31B04BC4600DBA9FF /* FlexibleLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlexibleLabelCell.swift; sourceTree = "<group>"; };
+		0EB330B41B04BC4600DBA9FF /* FlexibleLabelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FlexibleLabelCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +183,8 @@
 		0EB330991B04749900DBA9FF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0EB330B31B04BC4600DBA9FF /* FlexibleLabelCell.swift */,
+				0EB330B41B04BC4600DBA9FF /* FlexibleLabelCell.xib */,
 				0EB3309A1B04749900DBA9FF /* KeyboardAccessoryView.swift */,
 				0EB3309B1B04749900DBA9FF /* KeyboardAccessoryView.xib */,
 				0EB3309C1B04749900DBA9FF /* TextFieldCell.swift */,
@@ -282,6 +288,7 @@
 			files = (
 				0E8F78091B0443BE00F2D845 /* Main.storyboard in Resources */,
 				0E8F780E1B0443BE00F2D845 /* LaunchScreen.xib in Resources */,
+				0EB330B61B04BC4600DBA9FF /* FlexibleLabelCell.xib in Resources */,
 				0EB330A11B04749900DBA9FF /* TextFieldCell.xib in Resources */,
 				0EB3309F1B04749900DBA9FF /* KeyboardAccessoryView.xib in Resources */,
 				0E8F780B1B0443BE00F2D845 /* Images.xcassets in Resources */,
@@ -316,6 +323,7 @@
 				0EB330951B04742B00DBA9FF /* DetailViewController.swift in Sources */,
 				0E8F77FF1B0443BE00F2D845 /* AppDelegate.swift in Sources */,
 				0E8F78021B0443BE00F2D845 /* TestToDo.xcdatamodeld in Sources */,
+				0EB330B51B04BC4600DBA9FF /* FlexibleLabelCell.swift in Sources */,
 				0EB330A01B04749900DBA9FF /* TextFieldCell.swift in Sources */,
 				0EB330AE1B047E2B00DBA9FF /* UITableView+Utility.swift in Sources */,
 			);

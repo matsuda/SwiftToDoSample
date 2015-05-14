@@ -88,10 +88,10 @@ extension Entry {
     }
 
     func assignDataForMock(idx: Int) {
-        self.title = "title : \(idx)"
+        self.title = "タイトル : \(idx)"
         self.memo = ""
         for i in 0...(idx+1) {
-            self.memo! += "memo : \(i)"
+            self.memo! += "メモ : \(i)" + (i % 3 == 0 ? "\n" : "")
         }
         switch idx % 5  {
         case 0:
