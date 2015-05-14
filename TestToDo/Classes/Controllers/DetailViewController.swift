@@ -64,7 +64,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let row: EntryProperty = self.dataSource[indexPath.row]
         switch row {
-        case .Title, .Priority, .CreatedAt:
+        case .Title, .Priority, .DueDate:
             return self.tableView(tableView, labelCellForRowAtIndexPath: indexPath)
         case .Memo:
             return self.tableView(tableView, memoCellForRowAtIndexPath: indexPath)
@@ -86,8 +86,8 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             cell.detailTextLabel?.text = self.entry.title
         case .Priority:
             cell.detailTextLabel?.text = self.entry.priority.toString()
-        case .CreatedAt:
-            cell.detailTextLabel?.text = self.entry.createdAtAsString
+        case .DueDate:
+            cell.detailTextLabel?.text = self.entry.dueDateAsString
         default:
             break
         }

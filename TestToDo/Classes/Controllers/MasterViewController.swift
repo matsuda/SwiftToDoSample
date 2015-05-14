@@ -119,7 +119,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
         let entry = self.dataSource[indexPath.row]
         cell.textLabel?.text = entry.title
-        cell.detailTextLabel?.text = entry.createdAtAsString
+        cell.detailTextLabel?.text = entry.dueDateAsString
     }
 
     /*

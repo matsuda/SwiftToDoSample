@@ -89,20 +89,24 @@ UITextFieldDelegate, UITextViewDelegate {
         switch row {
         case .Title:
             let editCell = cell as! TextFieldCell
+            editCell.textField.placeholder = "入力"
             editCell.label.text = row.toString()
             editCell.textField.text = self.entry.title
         case .Memo:
             let editCell = cell as! TextViewCell
+            editCell.label.font = UIFont.systemFontOfSize(17)
             editCell.label.text = row.toString()
             editCell.textView.text = self.entry.memo
         case .Priority:
             cell.detailTextLabel?.font = UIFont.systemFontOfSize(14)
+            cell.detailTextLabel?.textColor = UIColor.blackColor()
             cell.textLabel?.text = row.toString()
             cell.detailTextLabel?.text = self.entry.priority.toString()
-        case .CreatedAt:
+        case .DueDate:
             cell.detailTextLabel?.font = UIFont.systemFontOfSize(14)
+            cell.detailTextLabel?.textColor = UIColor.blackColor()
             cell.textLabel?.text = row.toString()
-            cell.detailTextLabel?.text = self.entry.createdAtAsString
+            cell.detailTextLabel?.text = self.entry.dueDateAsString
         default:
             break
         }

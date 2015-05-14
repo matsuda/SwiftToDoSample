@@ -9,21 +9,21 @@
 import UIKit
 
 enum EntryProperty {
-    case Title, Priority, CreatedAt, Memo
+    case Title, Priority, DueDate, Memo
     func toString() -> String {
         switch self {
         case .Title:
             return "タイトル"
         case .Priority:
             return "優先度"
-        case .CreatedAt:
-            return "作成日"
+        case .DueDate:
+            return "予定日時"
         case .Memo:
             return "内容"
         }
     }
     static func all() -> [EntryProperty] {
-        return [.Title, .Priority, .CreatedAt, .Memo]
+        return [.Title, .Priority, .DueDate, .Memo]
     }
 }
 
@@ -49,19 +49,19 @@ class Entry: NSObject {
 
     var title: String?
     var memo: String?
-    var createdAt: NSDate
+    var dueDate: NSDate
     var priority: Priority = .Normal
 //    var category: String?
 
-    var createdAtAsString: String {
+    var dueDateAsString: String {
         get {
             var formatter = Entry.dateFormatter
             formatter.dateFormat = "yyyy/MM/dd HH:mm"
-            return formatter.stringFromDate(self.createdAt)
+            return formatter.stringFromDate(self.dueDate)
         }
     }
     override init() {
-        self.createdAt = NSDate()
+        self.dueDate = NSDate()
         super.init()
     }
 }
