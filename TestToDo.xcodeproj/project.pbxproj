@@ -17,6 +17,12 @@
 		0EB330961B04742B00DBA9FF /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330911B04742B00DBA9FF /* EditViewController.swift */; };
 		0EB330971B04742B00DBA9FF /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330921B04742B00DBA9FF /* MasterViewController.swift */; };
 		0EB330981B04742B00DBA9FF /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330941B04742B00DBA9FF /* Entry.swift */; };
+		0EB3309E1B04749900DBA9FF /* KeyboardAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB3309A1B04749900DBA9FF /* KeyboardAccessoryView.swift */; };
+		0EB3309F1B04749900DBA9FF /* KeyboardAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EB3309B1B04749900DBA9FF /* KeyboardAccessoryView.xib */; };
+		0EB330A01B04749900DBA9FF /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB3309C1B04749900DBA9FF /* TextFieldCell.swift */; };
+		0EB330A11B04749900DBA9FF /* TextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EB3309D1B04749900DBA9FF /* TextFieldCell.xib */; };
+		0EB330A41B0478B000DBA9FF /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330A21B0478B000DBA9FF /* TextViewCell.swift */; };
+		0EB330A51B0478B000DBA9FF /* TextViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EB330A31B0478B000DBA9FF /* TextViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +50,12 @@
 		0EB330911B04742B00DBA9FF /* EditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		0EB330921B04742B00DBA9FF /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		0EB330941B04742B00DBA9FF /* Entry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		0EB3309A1B04749900DBA9FF /* KeyboardAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAccessoryView.swift; sourceTree = "<group>"; };
+		0EB3309B1B04749900DBA9FF /* KeyboardAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyboardAccessoryView.xib; sourceTree = "<group>"; };
+		0EB3309C1B04749900DBA9FF /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
+		0EB3309D1B04749900DBA9FF /* TextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextFieldCell.xib; sourceTree = "<group>"; };
+		0EB330A21B0478B000DBA9FF /* TextViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextViewCell.swift; sourceTree = "<group>"; };
+		0EB330A31B0478B000DBA9FF /* TextViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +136,7 @@
 		0EB3308E1B04742B00DBA9FF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				0EB330991B04749900DBA9FF /* Views */,
 				0EB3308F1B04742B00DBA9FF /* Controllers */,
 				0EB330931B04742B00DBA9FF /* Models */,
 			);
@@ -146,6 +159,19 @@
 				0EB330941B04742B00DBA9FF /* Entry.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		0EB330991B04749900DBA9FF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0EB3309A1B04749900DBA9FF /* KeyboardAccessoryView.swift */,
+				0EB3309B1B04749900DBA9FF /* KeyboardAccessoryView.xib */,
+				0EB3309C1B04749900DBA9FF /* TextFieldCell.swift */,
+				0EB3309D1B04749900DBA9FF /* TextFieldCell.xib */,
+				0EB330A21B0478B000DBA9FF /* TextViewCell.swift */,
+				0EB330A31B0478B000DBA9FF /* TextViewCell.xib */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,7 +256,10 @@
 			files = (
 				0E8F78091B0443BE00F2D845 /* Main.storyboard in Resources */,
 				0E8F780E1B0443BE00F2D845 /* LaunchScreen.xib in Resources */,
+				0EB330A11B04749900DBA9FF /* TextFieldCell.xib in Resources */,
+				0EB3309F1B04749900DBA9FF /* KeyboardAccessoryView.xib in Resources */,
 				0E8F780B1B0443BE00F2D845 /* Images.xcassets in Resources */,
+				0EB330A51B0478B000DBA9FF /* TextViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,12 +277,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EB330A41B0478B000DBA9FF /* TextViewCell.swift in Sources */,
 				0EB330981B04742B00DBA9FF /* Entry.swift in Sources */,
 				0EB330971B04742B00DBA9FF /* MasterViewController.swift in Sources */,
 				0EB330961B04742B00DBA9FF /* EditViewController.swift in Sources */,
+				0EB3309E1B04749900DBA9FF /* KeyboardAccessoryView.swift in Sources */,
 				0EB330951B04742B00DBA9FF /* DetailViewController.swift in Sources */,
 				0E8F77FF1B0443BE00F2D845 /* AppDelegate.swift in Sources */,
 				0E8F78021B0443BE00F2D845 /* TestToDo.xcdatamodeld in Sources */,
+				0EB330A01B04749900DBA9FF /* TextFieldCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

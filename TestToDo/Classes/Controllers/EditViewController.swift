@@ -14,6 +14,9 @@ class EditViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var entry: Entry!
     var dataSource: [EntryProperty] = EntryProperty.all()
 
+    let TextFieldCellIdentifier = "TextFieldCell"
+    let TextViewCellIdentifier = "TextViewCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,6 +28,7 @@ class EditViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.title = "TODO作成"
             self.entry = Entry()
         }
+        self.prepareTableView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,19 +46,6 @@ class EditViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     */
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataSource.count
-    }
-
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("Cell") as? UITableViewCell
-        if cell == nil {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: "Cell")
-        }
-        cell?.textLabel?.text = "\(indexPath.row)"
-        return cell!
-    }
-
     @IBAction func tapSubmit(sender: AnyObject) {
         if self.presentingViewController == nil {
             self.navigationController?.popViewControllerAnimated(true)
@@ -69,5 +60,105 @@ class EditViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else {
             self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
         }
+    }
+
+    func prepareTableView() {
+        self.tableView.rowHeight = 44
+        var nib = UINib(nibName: TextFieldCellIdentifier, bundle: nil)
+        self.tableView.registerNib(nib, forCellReuseIdentifier: TextFieldCellIdentifier)
+        nib = UINib(nibName: TextViewCellIdentifier, bundle: nil)
+        self.tableView.registerNib(nib, forCellReuseIdentifier: TextViewCellIdentifier)
+    }
+
+    func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
+        let row = self.dataSource[indexPath.row]
+        switch row {
+        case .Title:
+            let editCell = cell as! TextFieldCell
+            editCell.label.text = row.toString()
+            editCell.textField.text = self.entry.title
+        case .Memo:
+            let editCell = cell as! TextViewCell
+            editCell.label.text = row.toString()
+            editCell.textView.text = self.entry.memo
+        case .Priority:
+            cell.detailTextLabel?.font = UIFont.systemFontOfSize(14)
+            cell.textLabel?.text = row.toString()
+            cell.detailTextLabel?.text = self.entry.priority.toString()
+        case .CreatedAt:
+            cell.detailTextLabel?.font = UIFont.systemFontOfSize(14)
+            cell.textLabel?.text = row.toString()
+            cell.detailTextLabel?.text = self.entry.createdAtAsString
+        default:
+            break
+        }
+    }
+
+    // MARK: - UITableView
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.dataSource.count
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        var height: CGFloat = 44;
+        let row = self.dataSource[indexPath.row]
+        switch row {
+        case .Memo:
+            height = 180
+        default:
+            break
+        }
+        return height
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let row = self.dataSource[indexPath.row]
+        var cell: UITableViewCell!
+        switch row {
+        case .Title:
+            cell = self.tableView(tableView, textFieldCellForRowAtIndexPath: indexPath)
+        case .Memo:
+            cell = self.tableView(tableView, textViewCellForRowAtIndexPath: indexPath)
+        default:
+            cell = self.tableView(tableView, defaultCellForRowAtIndexPath: indexPath)
+        }
+        self.configureCell(cell, atIndexPath: indexPath)
+        return cell
+    }
+
+    func tableView(tableView: UITableView, defaultCellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCellWithIdentifier("Cell") as? UITableViewCell
+        if cell == nil {
+            cell = UITableViewCell(style: .Value1, reuseIdentifier: "Cell")
+        }
+        return cell!
+    }
+
+    func tableView(tableView: UITableView, textFieldCellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let row = self.dataSource[indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier(TextFieldCellIdentifier) as! TextFieldCell
+        return cell
+    }
+
+    func tableView(tableView: UITableView, textViewCellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let row = self.dataSource[indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier(TextViewCellIdentifier) as! TextViewCell
+        return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let row = self.dataSource[indexPath.row]
+        switch row {
+        case .Title:
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! TextFieldCell
+            cell.textField.becomeFirstResponder()
+        case .Memo:
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! TextViewCell
+            cell.textView.becomeFirstResponder()
+        default:
+            break
+        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }
