@@ -14,8 +14,8 @@ UITextFieldDelegate, UITextViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
 
-    var entry: Entry!
-    var dataSource: [EntryProperty] = EntryProperty.all()
+    var task: Task!
+    var dataSource: [TaskProperty] = TaskProperty.all()
 
     let TextFieldCellIdentifier = "TextFieldCell"
     let TextViewCellIdentifier = "TextViewCell"
@@ -29,7 +29,7 @@ UITextFieldDelegate, UITextViewDelegate {
             self.navigationItem.leftBarButtonItem = nil
         } else {
             self.title = "TODO作成"
-            self.entry = Entry()
+            self.task = Task()
         }
         self.prepareTableView()
     }
@@ -92,22 +92,22 @@ UITextFieldDelegate, UITextViewDelegate {
             let editCell = cell as! TextFieldCell
             editCell.textField.placeholder = "入力"
             editCell.label.text = row.toString()
-            editCell.textField.text = self.entry.title
+            editCell.textField.text = self.task.title
         case .Memo:
             let editCell = cell as! TextViewCell
             editCell.label.font = UIFont.systemFontOfSize(17)
             editCell.label.text = row.toString()
-            editCell.textView.text = self.entry.memo
+            editCell.textView.text = self.task.memo
         case .Priority:
             cell.detailTextLabel?.font = UIFont.systemFontOfSize(14)
             cell.detailTextLabel?.textColor = UIColor.blackColor()
             cell.textLabel?.text = row.toString()
-            cell.detailTextLabel?.text = self.entry.priority.toString()
+            cell.detailTextLabel?.text = self.task.priority.toString()
         case .DueDate:
             cell.detailTextLabel?.font = UIFont.systemFontOfSize(14)
             cell.detailTextLabel?.textColor = UIColor.blackColor()
             cell.textLabel?.text = row.toString()
-            cell.detailTextLabel?.text = self.entry.dueDateAsString
+            cell.detailTextLabel?.text = self.task.dueDateAsString
         default:
             break
         }
@@ -206,7 +206,7 @@ extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, Pick
         self.view.endEditing(true)
         let pickerController = self.storyboard?.instantiateViewControllerWithIdentifier("PickerController") as! PickerController
         pickerController.presentPicker(true, completion: { (finished) -> Void in
-            var priority = self.entry.priority.rawValue
+            var priority = self.task.priority.rawValue
             pickerController.pickerView.selectRow(priority+1, inComponent: 0, animated: true)
         })
         self.addChildViewController(pickerController)
@@ -230,8 +230,8 @@ extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, Pick
     func pickerControllerDidSelect(controller: PickerController) {
         let index = controller.pickerView.selectedRowInComponent(0)
         self.dismissPickerController(controller)
-        let priority = Entry.Priority(rawValue: index-1)!
-        self.entry.priority = priority
+        let priority = Task.Priority(rawValue: index-1)!
+        self.task.priority = priority
         self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
     }
 
@@ -242,7 +242,7 @@ extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, Pick
         return 3
     }
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        let priority = Entry.Priority(rawValue: row-1)
+        let priority = Task.Priority(rawValue: row-1)
         return priority?.toString()
     }
 }
@@ -252,7 +252,7 @@ extension EditViewController: DatePickerControllerDelegate {
         self.view.endEditing(true)
         let pickerController = self.storyboard?.instantiateViewControllerWithIdentifier("DatePickerController") as! DatePickerController
         pickerController.presentPicker(true, completion: { (finished) -> Void in
-            pickerController.datePicker.date = self.entry.dueDate
+            pickerController.datePicker.date = self.task.dueDate
         })
         self.addChildViewController(pickerController)
         pickerController.didMoveToParentViewController(self)
@@ -273,7 +273,7 @@ extension EditViewController: DatePickerControllerDelegate {
     func datePickerControllerDidSelect(controller: DatePickerController) {
         let date = controller.datePicker.date
         self.dismissDatePickerController(controller)
-        self.entry.dueDate = date
+        self.task.dueDate = date
         self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 2, inSection: 0)], withRowAnimation: .None)
     }
 }

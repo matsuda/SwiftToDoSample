@@ -1,5 +1,5 @@
 //
-//  Entry.swift
+//  Task.swift
 //  TestToDo
 //
 //  Created by Kosuke Matsuda on 2015/05/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum EntryProperty {
+enum TaskProperty {
     case Title, Priority, DueDate, Memo
     func toString() -> String {
         switch self {
@@ -22,12 +22,12 @@ enum EntryProperty {
             return "内容"
         }
     }
-    static func all() -> [EntryProperty] {
+    static func all() -> [TaskProperty] {
         return [.Title, .Priority, .DueDate, .Memo]
     }
 }
 
-class Entry: NSObject {
+class Task: NSObject {
 
     enum Priority: Int {
         case Row = -1
@@ -55,7 +55,7 @@ class Entry: NSObject {
 
     var dueDateAsString: String {
         get {
-            var formatter = Entry.dateFormatter
+            var formatter = Task.dateFormatter
             formatter.dateFormat = "yyyy/MM/dd HH:mm"
             return formatter.stringFromDate(self.dueDate)
         }
@@ -66,9 +66,9 @@ class Entry: NSObject {
     }
 }
 
-extension Entry {
-    class func mocks(count: Int) -> [Entry] {
-        var objs: [Entry] = []
+extension Task {
+    class func mocks(count: Int) -> [Task] {
+        var objs: [Task] = []
         for var i = 0; i < count; i++ {
             objs.append(mock(i))
         }

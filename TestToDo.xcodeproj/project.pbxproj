@@ -16,7 +16,7 @@
 		0EB330951B04742B00DBA9FF /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330901B04742B00DBA9FF /* DetailViewController.swift */; };
 		0EB330961B04742B00DBA9FF /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330911B04742B00DBA9FF /* EditViewController.swift */; };
 		0EB330971B04742B00DBA9FF /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330921B04742B00DBA9FF /* MasterViewController.swift */; };
-		0EB330981B04742B00DBA9FF /* Entry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330941B04742B00DBA9FF /* Entry.swift */; };
+		0EB330981B04742B00DBA9FF /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB330941B04742B00DBA9FF /* Task.swift */; };
 		0EB3309E1B04749900DBA9FF /* KeyboardAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB3309A1B04749900DBA9FF /* KeyboardAccessoryView.swift */; };
 		0EB3309F1B04749900DBA9FF /* KeyboardAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EB3309B1B04749900DBA9FF /* KeyboardAccessoryView.xib */; };
 		0EB330A01B04749900DBA9FF /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB3309C1B04749900DBA9FF /* TextFieldCell.swift */; };
@@ -57,7 +57,7 @@
 		0EB330901B04742B00DBA9FF /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		0EB330911B04742B00DBA9FF /* EditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		0EB330921B04742B00DBA9FF /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		0EB330941B04742B00DBA9FF /* Entry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entry.swift; sourceTree = "<group>"; };
+		0EB330941B04742B00DBA9FF /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		0EB3309A1B04749900DBA9FF /* KeyboardAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardAccessoryView.swift; sourceTree = "<group>"; };
 		0EB3309B1B04749900DBA9FF /* KeyboardAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyboardAccessoryView.xib; sourceTree = "<group>"; };
 		0EB3309C1B04749900DBA9FF /* TextFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 		0EB330931B04742B00DBA9FF /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0EB330941B04742B00DBA9FF /* Entry.swift */,
+				0EB330941B04742B00DBA9FF /* Task.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -311,7 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EB330A41B0478B000DBA9FF /* TextViewCell.swift in Sources */,
-				0EB330981B04742B00DBA9FF /* Entry.swift in Sources */,
+				0EB330981B04742B00DBA9FF /* Task.swift in Sources */,
 				0EB330AB1B047CE500DBA9FF /* UIViewController+Keyboard.swift in Sources */,
 				0EB330B21B04B19A00DBA9FF /* DatePickerController.swift in Sources */,
 				0EB330971B04742B00DBA9FF /* MasterViewController.swift in Sources */,

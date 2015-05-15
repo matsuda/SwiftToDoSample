@@ -12,7 +12,7 @@ import CoreData
 class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     var managedObjectContext: NSManagedObjectContext? = nil
-    var dataSource: [Entry] = Entry.mocks(10)
+    var dataSource: [Task] = Task.mocks(10)
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -67,9 +67,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
                 (segue.destinationViewController as! DetailViewController).detailItem = object
                 */
-                let entry = self.dataSource[indexPath.row]
+                let task = self.dataSource[indexPath.row]
                 let destination = segue.destinationViewController as! DetailViewController
-                destination.entry = entry
+                destination.task = task
             }
         }
         if segue.identifier == "createData" {
@@ -118,9 +118,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
     }
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
-        let entry = self.dataSource[indexPath.row]
-        cell.textLabel?.text = entry.title
-        cell.detailTextLabel?.text = entry.dueDateAsString
+        let task = self.dataSource[indexPath.row]
+        cell.textLabel?.text = task.title
+        cell.detailTextLabel?.text = task.dueDateAsString
     }
 
     /*

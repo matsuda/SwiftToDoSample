@@ -11,8 +11,8 @@ import UIKit
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    var entry: Entry!
-    var dataSource: [EntryProperty] = EntryProperty.all()
+    var task: Task!
+    var dataSource: [TaskProperty] = TaskProperty.all()
     var prototypeMemoCell: FlexibleLabelCell?
     let MemoCellIdentifier = "MemoCell"
 
@@ -32,7 +32,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.title = self.entry.title
+        self.title = self.task.title
         self.configureView()
         self.prepareTableView()
     }
@@ -45,7 +45,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "editData" {
             let destination = segue.destinationViewController as! EditViewController
-            destination.entry = self.entry
+            destination.task = self.task
         }
     }
 
@@ -72,7 +72,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let row: EntryProperty = self.dataSource[indexPath.row]
+        let row: TaskProperty = self.dataSource[indexPath.row]
         var height: CGFloat = 44
         switch row {
         case .Memo:
@@ -92,7 +92,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let row: EntryProperty = self.dataSource[indexPath.row]
+        let row: TaskProperty = self.dataSource[indexPath.row]
         switch row {
         case .Title, .Priority, .DueDate:
             return self.tableView(tableView, labelCellForRowAtIndexPath: indexPath)
@@ -120,22 +120,22 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView, memoCellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let row: EntryProperty = self.dataSource[indexPath.row]
+        let row: TaskProperty = self.dataSource[indexPath.row]
         var cell = tableView.dequeueReusableCellWithIdentifier(MemoCellIdentifier) as! FlexibleLabelCell
         confitureMemoCell(cell, atIndexPath: indexPath)
         return cell
     }
 
     func confitureLabelCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
-        let row: EntryProperty = self.dataSource[indexPath.row]
+        let row: TaskProperty = self.dataSource[indexPath.row]
         cell.textLabel?.text = row.toString()
         switch row {
         case .Title:
-            cell.detailTextLabel?.text = self.entry.title
+            cell.detailTextLabel?.text = self.task.title
         case .Priority:
-            cell.detailTextLabel?.text = self.entry.priority.toString()
+            cell.detailTextLabel?.text = self.task.priority.toString()
         case .DueDate:
-            cell.detailTextLabel?.text = self.entry.dueDateAsString
+            cell.detailTextLabel?.text = self.task.dueDateAsString
         default:
             break
         }
@@ -144,7 +144,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     func confitureMemoCell(cell: FlexibleLabelCell, atIndexPath indexPath: NSIndexPath) {
         cell.selectionStyle = .None
         cell.contentLabel.font = UIFont.systemFontOfSize(15)
-        cell.contentLabel.text = self.entry.memo
+        cell.contentLabel.text = self.task.memo
     }
 }
 
