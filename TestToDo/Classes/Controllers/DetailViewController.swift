@@ -34,8 +34,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // Do any additional setup after loading the view, typically from a nib.
         self.title = self.entry.title
         self.configureView()
-        let nib = UINib(nibName: "FlexibleLabelCell", bundle: nil)
-        self.tableView.registerNib(nib, forCellReuseIdentifier: MemoCellIdentifier)
+        self.prepareTableView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,6 +51,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
 
     @IBAction func tapEdit(sender: AnyObject) {
         self.performSegueWithIdentifier("editData", sender: self)
+    }
+
+    func prepareTableView() {
+        let nib = UINib(nibName: "FlexibleLabelCell", bundle: nil)
+        self.tableView.registerNib(nib, forCellReuseIdentifier: MemoCellIdentifier)
     }
 
     func layoutPrototypeCellInTableView(tableView: UITableView) {
@@ -76,8 +80,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
                 self.prototypeMemoCell = tableView.dequeueReusableCellWithIdentifier(MemoCellIdentifier) as? FlexibleLabelCell
             }
             if let cell = self.prototypeMemoCell {
-                cell.contentLabel.text = self.entry.memo
-                cell.contentLabel.font = UIFont.systemFontOfSize(15)
+                confitureMemoCell(cell, atIndexPath: indexPath)
                 layoutPrototypeCellInTableView(tableView)
                 let size = cell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
                 height = max(size.height + 1, height)
@@ -96,17 +99,35 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         case .Memo:
             return self.tableView(tableView, memoCellForRowAtIndexPath: indexPath)
         default:
-            var cell = tableView.dequeueReusableCellWithIdentifier("Cell") as? UITableViewCell
-            if cell == nil {
-                cell = UITableViewCell(style: .Default, reuseIdentifier: "Cell")
-            }
-            return cell!
+            return self.tableView(tableView, defaultCellForRowAtIndexPath: indexPath)
         }
     }
 
+    func tableView(tableView: UITableView, defaultCellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let CellIdentifier = "Cell"
+        var cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? UITableViewCell
+        if cell == nil {
+            cell = UITableViewCell(style: .Default, reuseIdentifier: CellIdentifier)
+        }
+        return cell!
+    }
+
     func tableView(tableView: UITableView, labelCellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let LabelCellIdentifier = "LabelCell"
+        var cell = tableView.dequeueReusableCellWithIdentifier(LabelCellIdentifier) as! UITableViewCell
+        confitureLabelCell(cell, atIndexPath: indexPath)
+        return cell
+    }
+
+    func tableView(tableView: UITableView, memoCellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let row: EntryProperty = self.dataSource[indexPath.row]
-        var cell = tableView.dequeueReusableCellWithIdentifier("LabelCell") as! UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier(MemoCellIdentifier) as! FlexibleLabelCell
+        confitureMemoCell(cell, atIndexPath: indexPath)
+        return cell
+    }
+
+    func confitureLabelCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
+        let row: EntryProperty = self.dataSource[indexPath.row]
         cell.textLabel?.text = row.toString()
         switch row {
         case .Title:
@@ -118,15 +139,12 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         default:
             break
         }
-        return cell
     }
 
-    func tableView(tableView: UITableView, memoCellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let row: EntryProperty = self.dataSource[indexPath.row]
-        var cell = tableView.dequeueReusableCellWithIdentifier(MemoCellIdentifier) as! FlexibleLabelCell
+    func confitureMemoCell(cell: FlexibleLabelCell, atIndexPath indexPath: NSIndexPath) {
+        cell.selectionStyle = .None
         cell.contentLabel.font = UIFont.systemFontOfSize(15)
         cell.contentLabel.text = self.entry.memo
-        return cell
     }
 }
 
