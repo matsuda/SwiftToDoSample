@@ -81,8 +81,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             context = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
             context.persistentStoreCoordinator = self.fetchedResultsController.managedObjectContext.persistentStoreCoordinator
         } else {
-            context = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
-            context.parentContext = self.fetchedResultsController.managedObjectContext
+            // context = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
+            // context.parentContext = self.fetchedResultsController.managedObjectContext
         }
 
         // let task = NSEntityDescription.insertNewObjectForEntityForName("Task", inManagedObjectContext: context) as! Task
@@ -169,11 +169,19 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         if save {
             var error: NSError? = nil
             let context = controller.managedObjectContext!
-            if context.save(&error) {
-                APPLOG("save task")
-            } else {
-                APPLOG("can't save task : \(error) : \(error?.userInfo)")
-            }
+//            if context.save(&error) {
+//                APPLOG("save task")
+//            } else {
+//                APPLOG("can't save task : \(error) : \(error?.userInfo)")
+//            }
+            context.performBlockAndWait({ () -> Void in
+                var pError: NSError? = nil
+                if context.save(&pError) {
+                    APPLOG("save task")
+                } else {
+                    APPLOG("can't save task : \(pError) : \(pError?.userInfo)")
+                }
+            })
             if self.fetchedResultsController.managedObjectContext.save(&error) {
                 APPLOG("insert task")
                 NSFetchedResultsController.deleteCacheWithName("Master")
