@@ -8,12 +8,17 @@
 
 import UIKit
 
+@objc protocol EditViewControllerDelegate {
+    optional func editViewController(controller: EditViewController, didFinishEditingTask task: Task)
+}
+
 class EditViewController: UIViewController,
 UITableViewDataSource, UITableViewDelegate,
 UITextFieldDelegate, UITextViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
 
+    weak var delegate: EditViewControllerDelegate?
     var task: Task!
     var dataSource: [TaskProperty] = TaskProperty.all()
 
@@ -29,7 +34,6 @@ UITextFieldDelegate, UITextViewDelegate {
             self.navigationItem.leftBarButtonItem = nil
         } else {
             self.title = "TODO作成"
-            self.task = Task()
         }
         self.prepareTableView()
     }
@@ -61,6 +65,7 @@ UITextFieldDelegate, UITextViewDelegate {
 
     @IBAction func tapSubmit(sender: AnyObject) {
         self.view.endEditing(true)
+        self.delegate?.editViewController?(self, didFinishEditingTask: self.task)
         if self.presentingViewController == nil {
             self.navigationController?.popViewControllerAnimated(true)
         } else {
@@ -207,7 +212,7 @@ extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, Pick
         let pickerController = self.storyboard?.instantiateViewControllerWithIdentifier("PickerController") as! PickerController
         pickerController.presentPicker(true, completion: { (finished) -> Void in
             var priority = self.task.priority.rawValue
-            pickerController.pickerView.selectRow(priority+1, inComponent: 0, animated: true)
+            pickerController.pickerView.selectRow(Int(priority+1), inComponent: 0, animated: true)
         })
         self.addChildViewController(pickerController)
         pickerController.didMoveToParentViewController(self)
@@ -230,7 +235,7 @@ extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, Pick
     func pickerControllerDidSelect(controller: PickerController) {
         let index = controller.pickerView.selectedRowInComponent(0)
         self.dismissPickerController(controller)
-        let priority = Task.Priority(rawValue: index-1)!
+        let priority = Task.Priority(rawValue: Int16(index-1))!
         self.task.priority = priority
         self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: .None)
     }
@@ -242,7 +247,7 @@ extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, Pick
         return 3
     }
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        let priority = Task.Priority(rawValue: row-1)
+        let priority = Task.Priority(rawValue: Int16(row-1))
         return priority?.toString()
     }
 }

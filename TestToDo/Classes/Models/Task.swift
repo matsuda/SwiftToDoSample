@@ -6,7 +6,8 @@
 //  Copyright (c) 2015年 Appirits. All rights reserved.
 //
 
-import UIKit
+import Foundation
+import CoreData
 
 enum TaskProperty {
     case Title, Priority, DueDate, Memo
@@ -27,9 +28,9 @@ enum TaskProperty {
     }
 }
 
-class Task: NSObject {
+class Task: NSManagedObject {
 
-    enum Priority: Int {
+    enum Priority: Int16 {
         case Row = -1
         case Normal
         case High
@@ -47,11 +48,20 @@ class Task: NSObject {
 
     static var dateFormatter = NSDateFormatter()
 
-    var title: String?
-    var memo: String?
-    var dueDate: NSDate
-    var priority: Priority = .Normal
+    @NSManaged var title: String?
+    @NSManaged var memo: String?
+    @NSManaged var dueDate: NSDate
+    @NSManaged private var priorityValue: Int16
 //    var category: String?
+
+    var priority: Priority {
+        get {
+            return Priority(rawValue: self.priorityValue)!
+        }
+        set {
+            self.priorityValue = newValue.rawValue
+        }
+    }
 
     var dueDateAsString: String {
         get {
@@ -60,9 +70,15 @@ class Task: NSObject {
             return formatter.stringFromDate(self.dueDate)
         }
     }
-    override init() {
+    /*
+    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
         self.dueDate = NSDate()
-        super.init()
+    }
+    */
+    override func awakeFromInsert() {
+        super.awakeFromInsert()
+        self.dueDate = NSDate()
     }
 }
 

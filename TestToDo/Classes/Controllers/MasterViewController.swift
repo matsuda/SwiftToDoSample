@@ -9,10 +9,10 @@
 import UIKit
 import CoreData
 
-class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate, EditViewControllerDelegate {
 
     var managedObjectContext: NSManagedObjectContext? = nil
-    var dataSource: [Task] = Task.mocks(10)
+    // var dataSource: [Task] = Task.mocks(10)
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,6 +26,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         self.title = "ToDo一覧"
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
+        NSFetchedResultsController.deleteCacheWithName("Master")
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,6 +59,18 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
     */
 
+    func prepareTask() -> Task {
+        let context = self.fetchedResultsController.managedObjectContext
+        let entity = self.fetchedResultsController.fetchRequest.entity!
+        let task = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as! Task
+        /*
+        let context = self.managedObjectContext!
+        let entity = NSEntityDescription.entityForName("Task", inManagedObjectContext: context)!
+        let task = Task(entity: entity, insertIntoManagedObjectContext: context)
+        */
+        return task
+    }
+
     // MARK: - Segues
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -67,7 +80,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
                 (segue.destinationViewController as! DetailViewController).detailItem = object
                 */
-                let task = self.dataSource[indexPath.row]
+                let task = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Task
                 let destination = segue.destinationViewController as! DetailViewController
                 destination.task = task
             }
@@ -75,6 +88,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         if segue.identifier == "createData" {
             let navigation = segue.destinationViewController as! UINavigationController
             let destination = navigation.viewControllers.first as! EditViewController
+            destination.delegate = self
+            destination.task = self.prepareTask()
         }
     }
 
@@ -85,11 +100,8 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        /*
         let sectionInfo = self.fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
         return sectionInfo.numberOfObjects
-        */
-        return self.dataSource.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -118,7 +130,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
     }
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
-        let task = self.dataSource[indexPath.row]
+        let task = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Task
         cell.textLabel?.text = task.title
         cell.detailTextLabel?.text = task.dueDateAsString
     }
@@ -130,6 +142,19 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
     */
 
+    // MARK: - EditViewController delegate
+    func editViewController(controller: EditViewController, didFinishEditingTask task: Task) {
+        let context = self.managedObjectContext!
+        var error: NSError?
+        if context.save(&error) {
+           APPLOG("save task")
+        } else {
+            APPLOG("can't save task : \(error) : \(error?.userInfo)")
+        }
+        NSFetchedResultsController.deleteCacheWithName("Master")
+        self.fetchedResultsController.performFetch(nil)
+    }
+
     // MARK: - Fetched results controller
 
     var fetchedResultsController: NSFetchedResultsController {
@@ -139,14 +164,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
         let fetchRequest = NSFetchRequest()
         // Edit the entity name as appropriate.
-        let entity = NSEntityDescription.entityForName("Event", inManagedObjectContext: self.managedObjectContext!)
+        let entity = NSEntityDescription.entityForName("Task", inManagedObjectContext: self.managedObjectContext!)
         fetchRequest.entity = entity
         
         // Set the batch size to a suitable number.
         fetchRequest.fetchBatchSize = 20
         
         // Edit the sort key as appropriate.
-        let sortDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "dueDate", ascending: false)
         let sortDescriptors = [sortDescriptor]
         
         fetchRequest.sortDescriptors = [sortDescriptor]
@@ -168,7 +193,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         return _fetchedResultsController!
     }    
     var _fetchedResultsController: NSFetchedResultsController? = nil
-
+    /*
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         self.tableView.beginUpdates()
     }
@@ -203,6 +228,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         self.tableView.endUpdates()
     }
+    */
 
     /*
      // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
