@@ -65,6 +65,19 @@ UITextFieldDelegate, UITextViewDelegate {
 
     @IBAction func tapSubmit(sender: AnyObject) {
         self.view.endEditing(true)
+        var messages: [String] = []
+        if self.task.title == nil || self.task.title!.isEmpty {
+            messages.append("タイトルを入力してください")
+        }
+        if messages.count > 0 {
+            let message = join("\n", messages)
+            let alert = UIAlertController(title: "入力エラー", message: message, preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+            return
+        }
+
         self.delegate?.editViewController?(self, didFinishEditingTask: self.task)
         if self.presentingViewController == nil {
             self.navigationController?.popViewControllerAnimated(true)
@@ -194,16 +207,49 @@ UITextFieldDelegate, UITextViewDelegate {
 
     // MARK: - UITextField delegate
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        self.tableView.xxx_selectRowAtFirstRespondingView(textField)
+        if let indexPath = self.tableView.xxx_indexPathAtFirstRespondingView(textField) {
+            self.tableView.xxx_flashRowAtIndexPath(indexPath)
+        }
         return true
+    }
+
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        var text = textField.text
+        var newString = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        return true
+    }
+
+    func textFieldDidEndEditing(textField: UITextField) {
+        if let indexPath = self.tableView.xxx_indexPathAtFirstRespondingView(textField) {
+            self.assignText(textField.text, atIndexPath: indexPath)
+        }
     }
 
     // MARK: - UITextView delegate
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        self.tableView.xxx_selectRowAtFirstRespondingView(textView)
+        if let indexPath = self.tableView.xxx_indexPathAtFirstRespondingView(textView) {
+            self.tableView.xxx_flashRowAtIndexPath(indexPath)
+        }
         return true
     }
 
+    func textViewDidEndEditing(textView: UITextView) {
+        if let indexPath = self.tableView.xxx_indexPathAtFirstRespondingView(textView) {
+            self.assignText(textView.text, atIndexPath: indexPath)
+        }
+    }
+
+    func assignText(string: String, atIndexPath indexPath: NSIndexPath) {
+        let row = self.dataSource[indexPath.row]
+        switch row {
+        case .Title:
+            self.task.title = string
+        case .Memo:
+            self.task.memo = string
+        default:
+            break
+        }
+    }
 }
 
 extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, PickerControllerDelegate {
