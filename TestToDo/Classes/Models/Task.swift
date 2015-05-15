@@ -28,6 +28,7 @@ enum TaskProperty {
     }
 }
 
+@objc(Task)
 class Task: NSManagedObject {
 
     enum Priority: Int16 {
