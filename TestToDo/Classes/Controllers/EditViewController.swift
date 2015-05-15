@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import CoreData
 
 @objc protocol EditViewControllerDelegate {
-    optional func editViewController(controller: EditViewController, didFinishEditingTask task: Task)
+    func editViewController(controller: EditViewController, didFinishWithSave save: Bool)
 }
 
 class EditViewController: UIViewController,
@@ -19,6 +20,8 @@ UITextFieldDelegate, UITextViewDelegate {
     @IBOutlet weak var tableView: UITableView!
 
     weak var delegate: EditViewControllerDelegate?
+    var managedObjectContext: NSManagedObjectContext? = nil
+
     var task: Task!
     var dataSource: [TaskProperty] = TaskProperty.all()
 
@@ -31,7 +34,7 @@ UITextFieldDelegate, UITextViewDelegate {
         // Do any additional setup after loading the view.
         if self.presentingViewController == nil {
             self.title = "TODO編集"
-            self.navigationItem.leftBarButtonItem = nil
+            // self.navigationItem.leftBarButtonItem = nil
         } else {
             self.title = "TODO作成"
         }
@@ -78,7 +81,7 @@ UITextFieldDelegate, UITextViewDelegate {
             return
         }
 
-        self.delegate?.editViewController?(self, didFinishEditingTask: self.task)
+        self.delegate?.editViewController(self, didFinishWithSave: true)
         if self.presentingViewController == nil {
             self.navigationController?.popViewControllerAnimated(true)
         } else {
@@ -88,6 +91,7 @@ UITextFieldDelegate, UITextViewDelegate {
 
     @IBAction func tapCancel(sender: AnyObject) {
         self.view.endEditing(true)
+        self.delegate?.editViewController(self, didFinishWithSave: false)
         if self.presentingViewController == nil {
             self.navigationController?.popViewControllerAnimated(true)
         } else {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, EditViewControllerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     var task: Task!
@@ -37,6 +37,11 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         self.prepareTableView()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tableView.reloadData()
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -46,11 +51,25 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         if segue.identifier == "editData" {
             let destination = segue.destinationViewController as! EditViewController
             destination.task = self.task
+            destination.delegate = self
         }
     }
 
     @IBAction func tapEdit(sender: AnyObject) {
         self.performSegueWithIdentifier("editData", sender: self)
+    }
+
+    func editViewController(controller: EditViewController, didFinishWithSave save: Bool) {
+        if save {
+            if let context = self.task.managedObjectContext {
+                var error: NSError?
+                if context.save(&error) {
+                    APPLOG("save task")
+                } else {
+                    APPLOG("can't save task : \(error) : \(error?.userInfo)")
+                }
+            }
+        }
     }
 
     func prepareTableView() {

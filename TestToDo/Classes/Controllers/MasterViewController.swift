@@ -11,6 +11,7 @@ import CoreData
 
 class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate, EditViewControllerDelegate {
 
+    var rightBarButton: UIBarButtonItem!
     var managedObjectContext: NSManagedObjectContext? = nil
     // var dataSource: [Task] = Task.mocks(10)
 
@@ -21,17 +22,32 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-//        self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        self.navigationItem.leftBarButtonItem = self.editButtonItem()
 
         self.title = "ToDo一覧"
-        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
-        self.navigationItem.rightBarButtonItem = addButton
+        self.rightBarButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
+        self.navigationItem.rightBarButtonItem = self.rightBarButton
+
         NSFetchedResultsController.deleteCacheWithName("Master")
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        if editing {
+            self.navigationItem.rightBarButtonItem = nil
+        } else {
+            self.navigationItem.rightBarButtonItem = self.rightBarButton
+        }
     }
 
     func insertNewObject(sender: AnyObject) {
@@ -59,16 +75,20 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
     */
 
-    func prepareTask() -> Task {
-        let context = self.fetchedResultsController.managedObjectContext
+    func prepareTask() -> (Task, NSManagedObjectContext) {
+        var context: NSManagedObjectContext!
+        if NSThread.isMainThread() {
+            context = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
+            context.persistentStoreCoordinator = self.fetchedResultsController.managedObjectContext.persistentStoreCoordinator
+        } else {
+            context = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.PrivateQueueConcurrencyType)
+            context.parentContext = self.fetchedResultsController.managedObjectContext
+        }
+
+        // let task = NSEntityDescription.insertNewObjectForEntityForName("Task", inManagedObjectContext: context) as! Task
         let entity = self.fetchedResultsController.fetchRequest.entity!
         let task = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as! Task
-        /*
-        let context = self.managedObjectContext!
-        let entity = NSEntityDescription.entityForName("Task", inManagedObjectContext: context)!
-        let task = Task(entity: entity, insertIntoManagedObjectContext: context)
-        */
-        return task
+        return (task, context)
     }
 
     // MARK: - Segues
@@ -89,7 +109,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             let navigation = segue.destinationViewController as! UINavigationController
             let destination = navigation.viewControllers.first as! EditViewController
             destination.delegate = self
-            destination.task = self.prepareTask()
+            let (task, context) = self.prepareTask()
+            destination.task = task
+            destination.managedObjectContext = context
         }
     }
 
@@ -143,16 +165,24 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     */
 
     // MARK: - EditViewController delegate
-    func editViewController(controller: EditViewController, didFinishEditingTask task: Task) {
-        let context = self.managedObjectContext!
-        var error: NSError?
-        if context.save(&error) {
-           APPLOG("save task")
-        } else {
-            APPLOG("can't save task : \(error) : \(error?.userInfo)")
+    func editViewController(controller: EditViewController, didFinishWithSave save: Bool) {
+        if save {
+            var error: NSError? = nil
+            let context = controller.managedObjectContext!
+            if context.save(&error) {
+                APPLOG("save task")
+            } else {
+                APPLOG("can't save task : \(error) : \(error?.userInfo)")
+            }
+            if self.fetchedResultsController.managedObjectContext.save(&error) {
+                APPLOG("insert task")
+                NSFetchedResultsController.deleteCacheWithName("Master")
+                self.fetchedResultsController.performFetch(nil)
+            } else {
+                APPLOG("can't save task : \(error) : \(error?.userInfo)")
+            }
         }
-        NSFetchedResultsController.deleteCacheWithName("Master")
-        self.fetchedResultsController.performFetch(nil)
+        // controller.dismissViewControllerAnimated(true, completion: nil)
     }
 
     // MARK: - Fetched results controller
@@ -193,7 +223,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         return _fetchedResultsController!
     }    
     var _fetchedResultsController: NSFetchedResultsController? = nil
-    /*
+
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         self.tableView.beginUpdates()
     }
@@ -228,7 +258,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         self.tableView.endUpdates()
     }
-    */
 
     /*
      // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
