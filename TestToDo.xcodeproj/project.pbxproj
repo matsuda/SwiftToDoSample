@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E3567081B0D7D0F0047A252 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3567071B0D7D0F0047A252 /* AppConstants.swift */; };
 		0E8F77FF1B0443BE00F2D845 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F77FE1B0443BE00F2D845 /* AppDelegate.swift */; };
 		0E8F78021B0443BE00F2D845 /* TestToDo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F78001B0443BE00F2D845 /* TestToDo.xcdatamodeld */; };
 		0E8F78091B0443BE00F2D845 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8F78071B0443BE00F2D845 /* Main.storyboard */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E3567071B0D7D0F0047A252 /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		0E8F77F91B0443BE00F2D845 /* TestToDo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestToDo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E8F77FD1B0443BE00F2D845 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E8F77FE1B0443BE00F2D845 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				0EB330A81B047CE500DBA9FF /* UIViewController+Keyboard.swift */,
 				0EB330A91B047CE500DBA9FF /* UIViewController+Utility.swift */,
 				0EB330AD1B047E2B00DBA9FF /* UITableView+Utility.swift */,
+				0E3567071B0D7D0F0047A252 /* AppConstants.swift */,
 			);
 			path = Libs;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EB330A41B0478B000DBA9FF /* TextViewCell.swift in Sources */,
+				0E3567081B0D7D0F0047A252 /* AppConstants.swift in Sources */,
 				0EB330981B04742B00DBA9FF /* Task.swift in Sources */,
 				0EB330AB1B047CE500DBA9FF /* UIViewController+Keyboard.swift in Sources */,
 				0EB330B21B04B19A00DBA9FF /* DatePickerController.swift in Sources */,

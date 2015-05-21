@@ -24,7 +24,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         // Do any additional setup after loading the view, typically from a nib.
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
 
-        self.title = "ToDo一覧"
+        self.title = AppConstants.PageTitle.ToDoList
         self.rightBarButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = self.rightBarButton
 
@@ -51,7 +51,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     }
 
     func insertNewObject(sender: AnyObject) {
-        self.performSegueWithIdentifier("createData", sender: self)
+        self.performSegueWithIdentifier(AppConstants.SegueIdentifier.CreateData, sender: self)
     }
 
     /*
@@ -94,7 +94,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     // MARK: - Segues
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showDetail" {
+        if segue.identifier == AppConstants.SegueIdentifier.ShowDetail {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
                 /*
                 let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
@@ -105,7 +105,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 destination.task = task
             }
         }
-        if segue.identifier == "createData" {
+        if segue.identifier == AppConstants.SegueIdentifier.CreateData {
             let navigation = segue.destinationViewController as! UINavigationController
             let destination = navigation.viewControllers.first as! EditViewController
             destination.delegate = self

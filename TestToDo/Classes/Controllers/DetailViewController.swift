@@ -48,7 +48,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "editData" {
+        if segue.identifier == AppConstants.SegueIdentifier.EditData {
             let destination = segue.destinationViewController as! EditViewController
             destination.task = self.task
             destination.delegate = self
@@ -56,7 +56,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     }
 
     @IBAction func tapEdit(sender: AnyObject) {
-        self.performSegueWithIdentifier("editData", sender: self)
+        self.performSegueWithIdentifier(AppConstants.SegueIdentifier.EditData, sender: self)
     }
 
     func editViewController(controller: EditViewController, didFinishWithSave save: Bool) {

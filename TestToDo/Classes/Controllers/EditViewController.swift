@@ -33,10 +33,10 @@ UITextFieldDelegate, UITextViewDelegate {
 
         // Do any additional setup after loading the view.
         if self.presentingViewController == nil {
-            self.title = "TODO編集"
+            self.title = AppConstants.PageTitle.ToDoEdit
             // self.navigationItem.leftBarButtonItem = nil
         } else {
-            self.title = "TODO作成"
+            self.title = AppConstants.PageTitle.ToDoCreate
         }
         self.prepareTableView()
     }
@@ -259,7 +259,7 @@ UITextFieldDelegate, UITextViewDelegate {
 extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, PickerControllerDelegate {
     func presentPickerController() {
         self.view.endEditing(true)
-        let pickerController = self.storyboard?.instantiateViewControllerWithIdentifier("PickerController") as! PickerController
+        let pickerController = self.storyboard?.instantiateViewControllerWithIdentifier(AppConstants.StoryboardIdentifier.Picker) as! PickerController
         pickerController.presentPicker(true, completion: { (finished) -> Void in
             var priority = self.task.priority.rawValue
             pickerController.pickerView.selectRow(Int(priority+1), inComponent: 0, animated: true)
@@ -305,7 +305,7 @@ extension EditViewController: UIPickerViewDataSource, UIPickerViewDelegate, Pick
 extension EditViewController: DatePickerControllerDelegate {
     func presentDatePickerController() {
         self.view.endEditing(true)
-        let pickerController = self.storyboard?.instantiateViewControllerWithIdentifier("DatePickerController") as! DatePickerController
+        let pickerController = self.storyboard?.instantiateViewControllerWithIdentifier(AppConstants.StoryboardIdentifier.DatePicker) as! DatePickerController
         pickerController.presentPicker(true, completion: { (finished) -> Void in
             pickerController.datePicker.date = self.task.dueDate
         })
